@@ -6,24 +6,24 @@ This project involves designing a simplified database for a movie application. T
 
 ## Database Schema
 
-# ER Diagram
+### ER Diagram
 
 ```mermaid
 erDiagram
     USER {
-        int id PK
+        int id
         string username
         string first_name
         string last_name
         string email
         string password
-        int avatar_id FK
+        int avatar_id
         timestamp created_at
         timestamp updated_at
     }
 
     FILE {
-        int id PK
+        int id
         string file_name
         string mime_type
         string file_key
@@ -33,68 +33,66 @@ erDiagram
     }
 
     MOVIE {
-        int id PK
+        int id
         string title
         string description
         decimal budget
         date release_date
         int duration
-        int director_id FK
-        int country_id FK
-        int poster_id FK
+        int director_id
+        int country_id
+        int poster_id
         timestamp created_at
         timestamp updated_at
     }
 
     CHARACTER {
-        int id PK
+        int id
         string name
         string description
-        enum role
-        int movie_id FK
-        int person_id FK
+        string role
+        int movie_id
+        int person_id
         timestamp created_at
         timestamp updated_at
     }
 
     PERSON {
-        int id PK
+        int id
         string first_name
         string last_name
         string biography
         date date_of_birth
-        enum gender
-        int country_id FK
-        int primary_photo_id FK
+        string gender
+        int country_id
+        int primary_photo_id
         timestamp created_at
         timestamp updated_at
     }
 
     GENRE {
-        int id PK
+        int id
         string name
         timestamp created_at
         timestamp updated_at
     }
 
     COUNTRY {
-        int id PK
+        int id
         string name
         timestamp created_at
         timestamp updated_at
     }
 
     FAVORITES {
-        int user_id FK
-        int movie_id FK
+        int user_id
+        int movie_id
         timestamp created_at
-        PRIMARY KEY (user_id, movie_id)
     }
 
     MOVIE_GENRE {
-        int movie_id FK
-        int genre_id FK
-        PRIMARY KEY (movie_id, genre_id)
+        int movie_id
+        int genre_id
     }
 
     USER ||--o{ FAVORITES : "marks"
