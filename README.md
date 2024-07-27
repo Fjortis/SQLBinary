@@ -6,104 +6,89 @@ This project involves designing a simplified database for a movie application. T
 
 ## Database Schema
 
-### ER Diagram
+# ER Diagram
 
 ```mermaid
 erDiagram
     USER {
-        int id
+        int ID
         string username
         string first_name
         string last_name
         string email
         string password
-        int avatar_id
-        timestamp created_at
-        timestamp updated_at
+        string avatar_file_id
+        datetime created_at
+        datetime updated_at
     }
-
     FILE {
-        int id
+        int ID
         string file_name
         string mime_type
         string file_key
-        string url
-        timestamp created_at
-        timestamp updated_at
+        string file_url
+        datetime created_at
+        datetime updated_at
     }
-
     MOVIE {
-        int id
+        int ID
         string title
-        string description
+        text description
         decimal budget
         date release_date
         int duration
         int director_id
         int country_id
-        int poster_id
-        timestamp created_at
-        timestamp updated_at
+        string poster_file_id
+        datetime created_at
+        datetime updated_at
     }
-
     CHARACTER {
-        int id
+        int ID
         string name
-        string description
-        string role
+        text description
+        enum role
         int movie_id
-        int person_id
-        timestamp created_at
-        timestamp updated_at
+        int actor_id
+        datetime created_at
+        datetime updated_at
     }
-
     PERSON {
-        int id
+        int ID
         string first_name
         string last_name
-        string biography
+        text biography
         date date_of_birth
-        string gender
+        enum gender
         int country_id
-        int primary_photo_id
-        timestamp created_at
-        timestamp updated_at
+        string primary_photo_file_id
+        datetime created_at
+        datetime updated_at
     }
-
-    GENRE {
-        int id
-        string name
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    COUNTRY {
-        int id
-        string name
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    FAVORITES {
+    FAVORITE_MOVIE {
         int user_id
         int movie_id
-        timestamp created_at
     }
-
+    GENRE {
+        int ID
+        string name
+        datetime created_at
+        datetime updated_at
+    }
     MOVIE_GENRE {
         int movie_id
         int genre_id
     }
 
-    USER ||--o{ FAVORITES : "marks"
-    MOVIE ||--o{ FAVORITES : "is in"
-    USER }o--o{ FILE : "has"
-    PERSON }o--o{ FILE : "has"
-    MOVIE }o--o{ FILE : "has"
-    MOVIE ||--o{ GENRE : "is of"
-    MOVIE ||--o{ CHARACTER : "has"
-    PERSON ||--o{ CHARACTER : "plays"
-    MOVIE }o--|| COUNTRY : "is produced in"
-    PERSON }o--|| COUNTRY : "is from"
-    MOVIE }o--|| PERSON : "directed by"
+    USER ||--o{ FILE : has
+    USER ||--o{ FAVORITE_MOVIE : adds
+    FAVORITE_MOVIE }o--|| MOVIE : favorite
+    MOVIE ||--o{ FILE : has
+    MOVIE ||--o{ CHARACTER : features
+    MOVIE ||--o{ MOVIE_GENRE : categorized
+    MOVIE_GENRE }o--|| GENRE : includes
+    CHARACTER ||--o| PERSON : portrayed
+    PERSON ||--o{ FILE : has
+    PERSON ||--|{ COUNTRY : from
+    MOVIE ||--|{ COUNTRY : from
 ```
